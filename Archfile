@@ -1,0 +1,50 @@
+repository:
+  url: git://github.com/symphonycms/symphony-2/
+  branch: 2.5.x-branch
+
+information:
+  after-installation:
+    message: |
+      Thanks for installing Symphony. You can now browse to your application using the link
+      below and you'll be able to finish the installation.
+    buttons:
+      -
+        destination: http://$DOMAIN/install.php
+        label: Setup Symphony
+
+  general:
+    message: |
+      You should install your own extensions into the <b>extensions</b> directory.
+    buttons:
+      -
+        label: Login to Symphony
+        destination: http://$DOMAIN/symphony
+
+archfile:
+  platform: php-5.5
+
+  settings:
+    serve_static_files: true
+
+  processes:
+    -
+      name: web
+      memory: standard
+      command: vdt-php -p $PORT -w 2
+      quantity: 1
+      public: true
+      start_monitor:
+        module: httpcheck
+
+  persistent_directories:
+    -
+      path: manifest
+      sync_mode: always
+    -
+      path: uploads
+      sync_mode: always
+
+  shared_databases:
+    -
+      type: mysql
+      label: Symphony DB
